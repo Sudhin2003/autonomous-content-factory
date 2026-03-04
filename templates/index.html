@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Autonomous Content Factory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        .brand-title {
+    background: linear-gradient(135deg, #6366f1, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+        button {
+            margin-top:15px;
+            padding:10px 20px;
+            background:#6366f1;
+            border:none;
+            border-radius:6px;
+            color:white;
+            cursor:pointer;
+            font-weight:bold;
+        }
+
+        button:not(.primary-btn):hover {
+            background:#4f46e5;
+        }
+
+ /* 🚀 FINAL CINEMATIC ROCKET SYSTEM */
+
+.primary-btn {
+    
+    margin-top: 20px;
+    padding: 18px 36px;
+    font-size: 20px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 25px rgba(99,102,241,0.6);
+    position: relative;
+    overflow: visible;
+}
+.primary-btn:active {
+    transform: scale(0.97);
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 40px rgba(139,92,246,0.95);
+}
+
+.rocket-wrapper {
+     position: relative;
+     z-index: 2;
+     display: inline-block;
+     overflow: visible;
+}
+
+.rocket {
+    display: inline-block;
+    font-size: 22px;
+}
+
+.float {
+    animation: float 2s ease-in-out infinite;
+}
+/* Idle floating */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Ignition vibration */
+.ignite {
+    animation: shake 0.15s linear 6;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    50% { transform: translateX(2px); }
+    75% { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+}
+
+/* Blast Off */
+.launch {
+    animation: blastOff 0.8s ease forwards;
+}
+
+@keyframes blastOff {
+    0%   { transform: translateY(0); opacity: 1; }
+    50%  { transform: translateY(-18px); opacity: 1; }
+    100% { transform: translateY(-22px); opacity: 0; }
+}
+
+        body {
+            background-color: #0f172a;
+            font-family: 'Segoe UI', sans-serif;
+            color: #e2e8f0;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 { text-align:center; margin-bottom:40px; }
+
+        textarea {
+            width:100%;
+            height:120px;
+            background:#1e293b;
+            border:1px solid #334155;
+            color:white;
+            padding:10px;
+            border-radius:8px;
+        }
+
+
+       
+
+        .agent-room {
+            display:flex;
+            gap:20px;
+            margin-top:40px;
+        }
+
+        .agent-card {
+            flex:1;
+            background:#1e293b;
+            padding:20px;
+            border-radius:12px;
+            text-align:center;
+            border:1px solid #334155;
+            transition:0.3s;
+        }
+
+        .agent-card.active {
+            box-shadow:0 0 20px #6366f1;
+            transform:scale(1.03);
+        }
+
+        .status {
+            margin-top:10px;
+            font-size:14px;
+            padding:4px 10px;
+            border-radius:20px;
+            display:inline-block;
+        }
+
+        .idle { background:#475569; }
+        .thinking { background:#f59e0b; }
+        .writing { background:#3b82f6; }
+        .reviewing { background:#8b5cf6; }
+        .approved { background:#10b981; }
+        .rejected { background:#ef4444; }
+
+        .feed {
+            margin-top:40px;
+            background:#1e293b;
+            padding:20px;
+            border-radius:12px;
+            height:150px;
+            overflow-y:auto;
+            border:1px solid #334155;
+        }
+
+        .panel {
+            flex:1;
+            background:#1e293b;
+            padding:30px;
+            border-radius:12px;
+            border:1px solid #334155;
+            min-height:350px;
+        }
+
+        .desktop-preview { width:100%; }
+        .mobile-preview {
+            width:390px;
+            margin:40px auto;
+            background:#000;
+            padding:25px 15px;
+            border-radius:40px;
+            border:4px solid #1f2937;
+            box-shadow:0 0 60px rgba(99,102,241,0.5);
+        }
+
+        #metricsBar {
+            background:#111827;
+            padding:12px;
+            border-radius:8px;
+            margin-bottom:15px;
+            font-size:14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1 style="letter-spacing:1px;">
+  🏭 
+  <span class="brand-title">Autonomous</span> <span style="color:#4bbbf0;">Content Factory</span>
+</h1>
+
+<h3>Source Document</h3>
+<textarea id="sourceInput"></textarea>
+<br>
+
+<div id="dropZone" style="
+    margin-top:15px;
+    padding:25px;
+    border:2px dashed #334155;
+    border-radius:10px;
+    text-align:center;
+    color:#9ca3af;
+    cursor:pointer;
+">
+    📂 Drag & Drop .txt or .md file here  
+    <br><br>
+    <button type="button" onclick="document.getElementById('hiddenFile').click()">
+        Or Click to Upload
+    </button>
+</div>
+
+<input type="file" id="hiddenFile" accept=".txt,.md" style="display:none;">
+
+<br>
+<label style="display:block; margin-top:15px;">Select Campaign Tone:</label>
+<select id="toneSelect" style="
+    margin-top:8px;
+    padding:8px;
+    background:#1e293b;
+    color:white;
+    border:1px solid #334155;
+    border-radius:6px;
+">
+    <option value="Professional & Trustworthy">Professional & Trustworthy</option>
+    <option value="Bold & Disruptive">Bold & Disruptive</option>
+    <option value="Friendly & Conversational">Friendly & Conversational</option>
+    <option value="Premium & Luxurious">Premium & Luxurious</option>
+</select>
+
+<button class="primary-btn" onclick="launchAndRun(this)">
+    <span class="rocket-wrapper">
+        <span class="rocket" style="font-size:40px;">🚀</span>
+    </span>
+    Generate Campaign
+</button>
+
+<div class="agent-room">
+    <div class="agent-card" id="researchAgent">
+        🧠 <h3>Research Agent</h3>
+        <span class="status idle" id="researchStatus">Idle</span>
+    </div>
+
+    <div class="agent-card" id="copyAgent">
+        ✍️ <h3>Copywriter Agent</h3>
+        <span class="status idle" id="copyStatus">Idle</span>
+    </div>
+
+    <div class="agent-card" id="editorAgent">
+        🛡 <h3>Editor Agent</h3>
+        <span class="status idle" id="editorStatus">Idle</span>
+    </div>
+</div>
+
+<div class="feed" id="activityFeed">
+<strong>Agent Activity Feed</strong><br>
+</div>
+
+<div style="display:flex; gap:20px; margin-top:40px;">
+
+<div class="panel">
+<h3>📄 Original Source</h3>
+<div id="sourcePreview" style="white-space:pre-wrap;"></div>
+</div>
+
+<div class="panel">
+<h3>🚀 Final Campaign</h3>
+
+<div id="metricsBar">📊 Metrics will appear here.</div>
+
+<div style="margin-bottom:15px;">
+<button onclick="exportCampaign()">📦 Export Kit</button>
+<button onclick="setPreview('desktop')">🖥 Desktop</button>
+<button onclick="setPreview('mobile')">📱 Mobile</button>
+<button onclick="manualRegenerate()">🔄 Regenerate</button>
+<button onclick="manualApprove()">✅ Approve</button>
+</div>
+
+<div id="previewContainer" class="desktop-preview">
+<div id="finalOutput"></div>
+</div>
+
+<hr style="margin:20px 0; border-color:#334155;">
+<h4>🛡 Validation Result</h4>
+<div id="validationOutput" style="white-space:pre-wrap;"></div>
+
+</div>
+</div>
+<div class="panel" style="margin-top:40px;">
+    <h3>📁 Campaign History</h3>
+    <div id="historyContainer" style="max-height:300px; overflow-y:auto;"></div>
+    <button onclick="loadHistory()">🔄 Refresh History</button>
+</div>
+
+<script>
+
+function launchAndRun(button) {
+
+    const rocket = button.querySelector(".rocket");
+
+    // Remove floating class
+    rocket.classList.remove("float");
+
+    // Force reflow
+    void rocket.offsetWidth;
+
+    // Ignite
+    rocket.classList.add("ignite");
+
+    setTimeout(() => {
+        rocket.classList.remove("ignite");
+        rocket.classList.add("launch");
+    }, 300);
+
+    setTimeout(() => {
+        rocket.classList.remove("launch");
+        rocket.classList.add("float");
+    }, 1700);
+
+    runCampaign();
+}
+
+async function loadHistory() {
+
+    const res = await fetch("/campaign-history");
+    const history = await res.json();
+
+    const container = document.getElementById("historyContainer");
+    container.innerHTML = "";
+
+    if (history.length === 0) {
+        container.innerHTML = "No previous campaigns found.";
+        return;
+    }
+
+    history.forEach((item, index) => {
+
+        const div = document.createElement("div");
+        div.style.border = "1px solid #334155";
+        div.style.padding = "12px";
+        div.style.marginBottom = "12px";
+        div.style.borderRadius = "8px";
+        div.style.background = "#111827";
+
+        const preview = (item.generated_content || "").slice(0, 120);
+        const timestamp = item.timestamp || "Unknown time";
+
+        div.innerHTML = `
+            <strong>${timestamp}</strong><br>
+            <span style="font-size:12px; color:#9ca3af;">
+                ${preview}...
+            </span>
+            <br>
+        `;
+
+        // 🔹 LOAD BUTTON
+        const loadBtn = document.createElement("button");
+        loadBtn.innerText = "📂 Load";
+        loadBtn.style.marginRight = "8px";
+        loadBtn.onclick = function() {
+            loadCampaignIntoUI(item);
+        };
+
+        // 🔹 DELETE BUTTON (B)
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerText = "🗑 Delete";
+        deleteBtn.style.background = "#ef4444";
+        deleteBtn.style.marginRight = "8px";
+
+        deleteBtn.onclick = async function() {
+            await fetch(`/delete-campaign/${history.length - 1 - index}`, {
+                method: "DELETE"
+            });
+            loadHistory();
+        };
+
+        // 🔹 DOWNLOAD BUTTON (C)
+        const downloadBtn = document.createElement("button");
+        downloadBtn.innerText = "📦 Download";
+
+        downloadBtn.onclick = async function() {
+
+            const full = item.generated_content || "";
+            const cleaned = full.replace(/\*\*/g,"").trim();
+
+            const blogMatch = cleaned.match(/Blog Post:([\s\S]*?)Social Media Thread:/i);
+            const socialMatch = cleaned.match(/Social Media Thread:([\s\S]*?)Email/i);
+            const emailMatch = cleaned.match(/Email[^:]*:([\s\S]*)/i);
+
+            const blog = blogMatch ? blogMatch[1].trim() : "";
+            const social = socialMatch ? socialMatch[1].trim() : "";
+            const email = emailMatch ? emailMatch[1].trim() : "";
+
+            const res = await fetch("/export-campaign",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({
+                    blog: blog,
+                    social: social,
+                    email: email,
+                    facts: item.facts || {}
+                })
+            });
+
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "campaign.zip";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        };
+
+        div.appendChild(loadBtn);
+        div.appendChild(deleteBtn);
+        div.appendChild(downloadBtn);
+
+        container.appendChild(div);
+    });
+}   
+
+function loadCampaignIntoUI(data) {
+
+    // 🔥 Restore original source text
+    if (data.source_text) {
+        const textarea = document.getElementById("sourceInput");
+        textarea.value = data.source_text;
+        textarea.dispatchEvent(new Event("input"));
+
+        document.getElementById("sourcePreview").innerText = data.source_text;
+    }
+
+    // 🔥 Restore tone selection
+    if (data.tone) {
+        document.getElementById("toneSelect").value = data.tone;
+    }
+
+    // 🔥 Restore content sections
+    const full = data.generated_content || "";
+    const cleaned = full.replace(/\*\*/g,"").trim();
+
+    const blogMatch = cleaned.match(/Blog Post:([\s\S]*?)Social Media Thread:/i);
+    const socialMatch = cleaned.match(/Social Media Thread:([\s\S]*?)Email/i);
+    const emailMatch = cleaned.match(/Email[^:]*:([\s\S]*)/i);
+
+    window.blogContent = blogMatch ? blogMatch[1].trim() : "";
+    window.socialContent = socialMatch ? socialMatch[1].trim() : "";
+    window.emailContent = emailMatch ? emailMatch[1].trim() : "";
+    window.lastFacts = data.facts;
+
+    document.getElementById("validationOutput").innerText =
+        JSON.stringify(data.validation, null, 2);
+
+    renderDesktopView();
+}
+
+const dropZone = document.getElementById("dropZone");
+const hiddenFile = document.getElementById("hiddenFile");
+const sourceInput = document.getElementById("sourceInput");
+
+function handleFile(file) {
+    if (!file) return;
+
+    if (!file.name.endsWith(".txt") && !file.name.endsWith(".md")) {
+        alert("Only .txt or .md files supported.");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const textContent = e.target.result;
+
+        // Force update textarea value
+        sourceInput.value = textContent;
+
+        // Also update preview
+        document.getElementById("sourcePreview").innerText = textContent;
+
+        addFeed("📂 File successfully loaded into source area.");
+    };
+
+    reader.onerror = function() {
+        alert("Error reading file.");
+    };
+
+    reader.readAsText(file);
+}
+
+/* Click Upload */
+hiddenFile.addEventListener("change", function(e) {
+    handleFile(e.target.files[0]);
+});
+
+/* Drag Over */
+dropZone.addEventListener("dragover", function(e) {
+    e.preventDefault();
+    dropZone.style.borderColor = "#6366f1";
+});
+
+/* Drag Leave */
+dropZone.addEventListener("dragleave", function(e) {
+    e.preventDefault();
+    dropZone.style.borderColor = "#334155";
+});
+
+/* Drop */
+dropZone.addEventListener("drop", function(e) {
+    e.preventDefault();
+    dropZone.style.borderColor = "#334155";
+
+    const file = e.dataTransfer.files[0];
+    handleFile(file);
+});
+
+function agentMessage(agent, message) {
+    const feed = document.getElementById("activityFeed");
+    feed.innerHTML += `<br><strong>${agent}:</strong> ${message}`;
+    feed.scrollTop = feed.scrollHeight;
+}    
+
+document.getElementById("fileUpload").addEventListener("change", function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev){
+        document.getElementById("sourceInput").value = ev.target.result;
+    };
+    reader.readAsText(file);
+});
+
+function setAgentState(agentId, text, cls){
+    const card = document.getElementById(agentId);
+    const status = document.getElementById(agentId.replace("Agent","Status"));
+    card.classList.add("active");
+    status.innerText = text;
+    status.className = "status " + cls;
+}
+
+function addFeed(msg){
+    const feed = document.getElementById("activityFeed");
+    feed.innerHTML += "<br>" + msg;
+    feed.scrollTop = feed.scrollHeight;
+}
+
+function manualApprove(){
+    addFeed("🟢 Campaign manually approved.");
+    alert("Campaign Approved.");
+}
+
+async function manualRegenerate(){
+    addFeed("🔄 Manual regeneration triggered...");
+    await runCampaign();
+}
+
+function setPreview(mode){
+    const container = document.getElementById("previewContainer");
+    if(mode==="mobile"){
+        container.classList.remove("desktop-preview");
+        container.classList.add("mobile-preview");
+        renderMobileView();
+    } else {
+        container.classList.remove("mobile-preview");
+        container.classList.add("desktop-preview");
+        renderDesktopView();
+    }
+}
+
+function renderDesktopView(){
+    document.getElementById("finalOutput").innerHTML = `
+        <h2>📝 Blog Post</h2>
+        <div>${window.blogContent.replace(/\n/g,"<br>")}</div>
+        <hr style="margin:20px 0; border-color:#334155;">
+        <h3>📧 Email Teaser</h3>
+        <div>${window.emailContent.replace(/\n/g,"<br>")}</div>
+    `;
+}
+
+function renderMobileView(){
+    const posts = window.socialContent.split(/Post\s*\d+:/i).filter(p=>p.trim()!=="");
+    let formatted = posts.map((p,i)=>`
+        <div style="background:#111827;padding:18px;border-radius:18px;margin-bottom:18px;">
+            <div style="font-size:14px;color:#9ca3af;margin-bottom:8px;">
+                @BrandOfficial • ${i+1}h
+            </div>
+            <div>${p.trim().replace(/\n/g,"<br>")}</div>
+        </div>
+    `).join("");
+    document.getElementById("finalOutput").innerHTML =
+        `<h2 style="text-align:center;">📱 Social Thread</h2>` + formatted;
+}
+
+async function exportCampaign(){
+    if(!window.blogContent){ alert("Generate first."); return; }
+
+    const res = await fetch("/export-campaign",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            blog:window.blogContent,
+            social:window.socialContent,
+            email:window.emailContent,
+            facts:window.lastFacts||{}
+        })
+    });
+
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "campaign.zip";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+}
+
+function resetAgents() {
+    const agents = ["researchAgent", "copyAgent", "editorAgent"];
+
+    agents.forEach(id => {
+        const card = document.getElementById(id);
+        const status = document.getElementById(id.replace("Agent","Status"));
+
+        card.classList.remove("active");
+        status.className = "status idle";
+        status.innerText = "Idle";
+    });
+}
+
+async function runCampaign(){
+    resetAgents();
+
+    const sourceText = document.getElementById("sourceInput").value;
+
+    const tone = document.getElementById("toneSelect").value;
+    document.getElementById("activityFeed").innerHTML =
+        "<strong>Agent Activity Feed</strong><br>";
+
+    
+    document.getElementById("sourcePreview").innerText = sourceText;
+
+    setAgentState("researchAgent","Thinking","thinking");
+    agentMessage("🧠 Research", "Reading source document...");
+    await new Promise(r => setTimeout(r, 600));
+    agentMessage("🧠 Research", "Extracted structured fact sheet.");
+    agentMessage("🧠 Research", "Passing verified facts to Copywriter.");
+
+    await new Promise(r => setTimeout(r, 500));
+
+    const response = await fetch("/run-campaign",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+           content: sourceText,
+             tone: tone
+        })
+    });
+
+    const data = await response.json();
+
+    if (data.facts?.ambiguities?.length > 0) {
+     agentMessage("🧠 Research", "Flagged ambiguities in source text:");
+     data.facts.ambiguities.forEach(item => {
+        agentMessage("🧠 Research", "• " + item);
+     });
+    }
+
+    setAgentState("copyAgent","Writing","writing");
+    agentMessage("✍ Copywriter", "Received fact sheet.");
+    await new Promise(r => setTimeout(r, 600));
+    agentMessage("✍ Copywriter", "Drafting blog, social thread, and email.");
+
+    await new Promise(r => setTimeout(r, 500));
+
+    setAgentState("editorAgent","Reviewing","reviewing");
+    agentMessage("🛡 Editor", "Comparing draft against source of truth...");
+    await new Promise(r => setTimeout(r, 600));
+
+    await new Promise(r => setTimeout(r, 500));
+
+    if(data.validation?.status==="PASS"){
+     setAgentState("editorAgent","Approved","approved");
+     agentMessage("🛡 Editor", "No factual deviations detected. Approved.");
+    }
+    else {
+     setAgentState("editorAgent","Rejected","rejected");
+     agentMessage("🛡 Editor", "Factual deviation detected.");
+     agentMessage("🛡 Editor", "Sending correction note to Copywriter.");
+     agentMessage("✍ Copywriter", "Applying corrections and resubmitting...");
+    }
+
+    const full = data.generated_content||"";
+    const cleaned = full.replace(/\*\*/g,"").trim();
+
+    const blogMatch = cleaned.match(/Blog Post:([\s\S]*?)Social Media Thread:/i);
+    const socialMatch = cleaned.match(/Social Media Thread:([\s\S]*?)Email/i);
+    const emailMatch = cleaned.match(/Email[^:]*:([\s\S]*)/i);
+
+    window.blogContent = blogMatch?blogMatch[1].trim():"";
+    window.socialContent = socialMatch?socialMatch[1].trim():"";
+    window.emailContent = emailMatch?emailMatch[1].trim():"";
+    window.lastFacts = data.facts;
+
+    const wordCount = window.blogContent.split(/\s+/).length;
+    const hallucinations = data.validation?.hallucinations?.length||0;
+    const ambiguities = data.facts?.ambiguities?.length||0;
+
+    document.getElementById("metricsBar").innerHTML =
+        `📊 Words: ${wordCount} | 🧠 Ambiguities: ${ambiguities} | 🛡 Hallucinations: ${hallucinations} | Status: ${data.validation?.status}`;
+
+    renderDesktopView();
+
+    document.getElementById("validationOutput").innerText =
+        JSON.stringify(data.validation,null,2);
+}
+
+</script>
+
+</body>
+</html>

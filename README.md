@@ -1,4 +1,8 @@
 # Autonomous Content Factory
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
+![AI](https://img.shields.io/badge/AI-MultiAgent-orange)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ## Project Title
 Autonomous Content Factory – AI-Powered Multi-Agent Marketing Content System

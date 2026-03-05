@@ -62,6 +62,7 @@ Final Campaign Output + Exportable Campaign Kit
 
 2. Clone repository:
    git clone https://github.com/Sudhin2003/autonomous-content-factory.git
+  
    cd backend
 
 3. Create virtual environment:

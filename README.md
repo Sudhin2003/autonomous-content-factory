@@ -61,7 +61,7 @@ Final Campaign Output + Exportable Campaign Kit
 1. Install Python (3.10 or higher)
 
 2. Clone repository:
-   git clone <repo-link>
+   git clone https://github.com/Sudhin2003/autonomous-content-factory.git
    cd backend
 
 3. Create virtual environment:

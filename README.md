@@ -72,6 +72,8 @@ Final Campaign Output + Exportable Campaign Kit
 4. Install dependencies:
    pip install -r requirements.txt
 
+   Note: httpx is pinned to ensure compatibility with the Groq SDK.
+
 5. Create .env file:
    GROQ_API_KEY=your_key_here
 

@@ -20,6 +20,33 @@ Autonomous Content Factory simulates multiagent workflow in a structured way
 
 The system creates a closed-loop AI workflow that improves reliability of generated marketing content.
 
+## Features
+
+- Multi-agent AI workflow for automated marketing content generation
+- Research Agent that extracts structured facts from source documents
+- Copywriter Agent that generates blog posts, social media threads, and email teasers
+- Editor Agent that validates generated content to detect hallucinations
+- Automatic regeneration loop when factual inconsistencies are detected
+- Campaign history tracking for previously generated campaigns
+- Exportable campaign kit containing generated assets
+- Desktop and mobile preview for social media content
+
+## System Architecture
+
+The system operates using a multi-agent pipeline:
+
+User Input  
+↓  
+Research Agent → Extracts structured facts from the source document  
+↓  
+Copywriter Agent → Generates blog post, social thread, and email teaser  
+↓  
+Editor Agent → Validates generated content against the fact sheet  
+↓  
+If hallucinations or inconsistencies are detected → regeneration is triggered  
+↓  
+Final Campaign Output + Exportable Campaign Kit
+
 ## Tech Stack
 - Python 3.10+
 - FastAPI

@@ -1,4 +1,11 @@
 # Autonomous Content Factory
+
+## 🎥 Project Demo
+
+Click the image below to watch the demo video.
+
+[![Demo Video](demo/demo_thumbnail.png)](demo/demo_video.mkv)
+
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
 ![AI](https://img.shields.io/badge/AI-MultiAgent-orange)
@@ -6,6 +13,7 @@
 
 ## Project Title
 Autonomous Content Factory – AI-Powered Multi-Agent Marketing Content System
+
 
 ## The Problem
 Marketing teams spend significant time drafting and validating information.Ai generating the info may bring about hallucinations or inaccurate data 

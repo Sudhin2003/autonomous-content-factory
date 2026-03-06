@@ -4,7 +4,7 @@
 
 Click the image below to watch the demo video.
 
-[![Watch the demo](demo/demo_thumbnail.png)](https://youtu.be/yfCJ__V8wGY)
+[![Watch the demo](demo/demo_thumbnail.png)](https://youtu.be/QnlhgPIornQ)
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)

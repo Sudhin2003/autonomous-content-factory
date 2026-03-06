@@ -58,6 +58,8 @@ Final Campaign Output + Exportable Campaign Kit
 
 ## Setup Instructions
 
+## Linux/Macos Systems
+
 1. Install Python (3.10 or higher)
 
 2. Clone repository:
@@ -82,3 +84,20 @@ Final Campaign Output + Exportable Campaign Kit
 
 Open:
 http://127.0.0.1:8000
+
+## Windows Systems
+
+1. Clone the repository : git clone https://github.com/Sudhin2003/autonomous-content-factory.git
+cd autonomous-content-factory\backend
+
+2. Create virtual environment : python -m venv venv
+
+3. Activate environment : venv\Scripts\activate
+
+4. Install dependencies : pip install -r requirements.txt
+
+5. Create .env file : GROQ_API_KEY=your_api_key_here
+
+6. Run server : uvicorn main:app --reload
+
+7. Open in browser: http://127.0.0.1:8000
